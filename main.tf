@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
   }
 }
 
@@ -27,4 +31,5 @@ resource "aws_s3_bucket_public_access_block" "learn" {
   ignore_public_acls     = true
   restrict_public_buckets = true
 }
+
 

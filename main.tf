@@ -24,6 +24,16 @@ resource "random_id" "suffix" {
   byte_length = 4
 }
 
+resource = "aws_s3_bucket_" "learn" {
+  bucket = "terraform-learn-${random-id.suffix.hex}"
+
+  tags = {
+    Name              = "terraform-learn-bucket" 
+    Environment       = "learning"
+    ManagedBy         = "terraform"
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "learn" {
   bucket = aws_s3_bucket.learn.id
 
@@ -31,13 +41,7 @@ resource "aws_s3_bucket_public_access_block" "learn" {
   block_public_policy    = true
   ignore_public_acls     = true
   restrict_public_buckets = true
-
-  tags ={
-    Name              = "terraform-learn-bucket" 
-    Environnment      = "learning"
-    ManagedBy         = "terraform"
   }
-}
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "learn" {
   bucket = aws_s3_bucket.learn.id

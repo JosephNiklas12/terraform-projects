@@ -21,7 +21,7 @@ resource "random_id" "suffix" {
 }
 
 resource "aws_s3_bucket" "learn" {
-  bucket = "terraform-learn-${random-id.suffix.hex}"
+  bucket = "terraform-learn-${random_id.suffix.hex}"
 
   tags = {
     Name              = "terraform-learn-bucket" 

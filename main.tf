@@ -33,6 +33,16 @@ resource "aws_s3_bucket_public_access_block" "learn" {
   restrict_public_buckets = true
 }
 
+resource = "aws_s3_bucket" "learn" {
+  bucket = "terraform-learn-${random_id.suffix.hex}"
+
+  tags ={
+    Name              = "terraform-learn-bucket" 
+    Environnment      = "learning"
+    ManagedBy         = "terraform"
+  }
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "learn" {
   bucket = aws_s3_bucket.learn.id
 

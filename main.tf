@@ -31,10 +31,6 @@ resource "aws_s3_bucket_public_access_block" "learn" {
   block_public_policy    = true
   ignore_public_acls     = true
   restrict_public_buckets = true
-}
-
-resource "aws_s3_bucket" "learn" {
-  bucket = "terraform-learn-${random_id.suffix.hex}"
 
   tags ={
     Name              = "terraform-learn-bucket" 

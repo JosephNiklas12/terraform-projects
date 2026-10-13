@@ -24,7 +24,7 @@ resource "random_id" "suffix" {
   byte_length = 4
 }
 
-resource "aws_s3_bucket_" "learn" {
+resource "aws_s3_bucket" "learn" {
   bucket = "terraform-learn-${random-id.suffix.hex}"
 
   tags = {

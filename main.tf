@@ -1,50 +1,23 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-    random = {
-    
-      source  = "hashicorp/random"
-      version = "~> 3.0"
-    }
-  }
-}
-
 provider "aws" {
-  region = "us-east-1"
+  region = "us-east-1" 
 }
 
-resource "random_id" "suffix" {
-  byte_length = 4
+data "aws_ami" "ubuntu" {
+  most_recent = true
+
+  filter {
+    name = "name"
+    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
+  }
+
+  owners = ["099720109477"]
 }
 
-resource "aws_s3_bucket" "learn" {
-  bucket = "terraform-learn-${random_id.suffix.hex}"
+resource "aws_instance" "app_server {
+  ami             = data.aws_ami.ubuntu.id
+  instance_type   = "t2.micro"
 
   tags = {
-    Name              = "terraform-learn-bucket" 
-    Environment       = "learning"
-    ManagedBy         = "terraform"
-  }
-}
-
-resource "aws_s3_bucket_public_access_block" "learn" {
-  bucket = aws_s3_bucket.learn.id
-
-  block_public_acls      = true
-  block_public_policy    = true
-  ignore_public_acls     = true
-  restrict_public_buckets = true
-  }
-
-resource "aws_s3_bucket_server_side_encryption_configuration" "learn" {
-  bucket = aws_s3_bucket.learn.id
-
-  rule{
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256" 
-    }
+    Name = "learn-terraform" 
   }
 }
